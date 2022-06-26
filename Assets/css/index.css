@@ -1,0 +1,119 @@
+/* *{
+    outline:1px solid black;
+} */
+/* *{
+    margin:0;
+    padding:0;
+} */
+html{ 
+    font-size:16px;
+    /* background-color:rgba(211, 211, 211, 0.211); */
+    }
+.main-heading-website{
+    color:#5c5959;
+    border-bottom:2px solid #5c5959;
+}
+.free-canada-immigration-support-image{
+    width:50vw;
+    display:inline-block;
+    }
+.mission{
+    color:rgb(255, 0, 0);
+    width:30vw;
+    display:inline-block;
+    text-align:center;
+    vertical-align:top;
+    line-height:3rem;
+    padding-left:2rem;
+    padding-top:2rem;
+    font-weight:bold;
+}
+.first-section{
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    padding-left:1rem;
+    padding-top:0.5rem;
+    margin-top:3rem;
+}
+.first-section:hover{
+    transform:scale(1.02);
+}
+.founder-image{
+    width:30vw;
+    display:inline-block;
+    border:1px solid black;
+    border-radius:10%;
+    margin:1rem;
+    }
+.founder-image:hover{
+    transform:scale(1.05);
+}
+.about-founder{
+    width:50vw;
+    display:inline-block;
+    text-align: left;
+    vertical-align:top;
+    padding:5rem;
+}
+.about-ask-richie-heading{
+    color:red;
+
+}
+.about-ask-richie-content{
+    color:rgb(92, 89, 89);
+    font-weight:bold;
+}
+.express-entry{
+    color:red;
+}
+.express-entry-summary{
+    color:#5c5959;
+}
+.express-entry-categories{
+    width:200px;
+    height:200px;
+    display:inline-block;
+    padding:1rem;
+    margin:1rem;
+    border:1px solid black;
+    border-radius: 50%;
+    background-color:rgba(255, 0, 0, 0.1);
+}
+.express-entry-category-title{
+    color:red;
+    text-align:center;
+    font-size:1.25rem;
+}
+.express-entry-category-content{
+    color:#5c5959;
+    text-align:center;
+}
+.third-section{
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+    padding-left:1rem;
+    padding-top:1rem;
+}
+.third-section:hover{
+    transform:scale(1.03);
+}
+.useful-reference-link-heading{
+    color:red;
+}
+.useful-reference-link{
+    color:#5c5959;
+    text-decoration-line: none;
+    padding:0.5rem;
+    margin:6rem;
+    font-weight: bold;
+    border:1px solid black;
+}
+.useful-reference-link:hover{
+    color:white;
+    background-color: red;
+    }
+.useful-reference{
+    display:flex;
+    height:150px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    align-items:center;
+    padding-left: 1rem;
+    }

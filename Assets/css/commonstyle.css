@@ -1,0 +1,37 @@
+.header-items {
+    color:red;
+    text-decoration-line:none;
+
+}
+.header-items:hover{
+    background-color: red;
+    color:white;
+    padding:0.5rem;
+}
+
+}
+.footer-content{
+    background-color:rgba(211, 211, 211, 0.494);
+    margin-top:1rem;
+    
+}
+.ask-richie-logo{
+    width:20%;
+    }
+    .footer-items{
+        color:red;
+    }
+    .footer-items-list{
+        color:red;
+        text-decoration:none;
+    }
+.footer-bottom{
+    color:red;
+    padding:1rem 1rem;
+    
+}
+.footer-items-list:hover{
+    background-color: red;
+    color:white;
+    padding:0.2rem;
+}
