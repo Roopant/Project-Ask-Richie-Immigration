@@ -5,3 +5,6 @@ Assets folder contain images used in creation of these .html pages
 Assets folder has css folder which contains CSS external style sheets
 commonstyle.css is common CSS style sheet to be used for common styles in whole website- including header & footers.
 index.css is CSS style sheet for index.html
+contactus.css is CSS Style sheet for contact-us.html
+aboutus.css is CSS style sheet for About-us.html
+External font-Roboto linked from Google fonts
