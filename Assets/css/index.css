@@ -27,9 +27,8 @@ html{
     display:inline-block;
     text-align:center;
     vertical-align:top;
-    line-height:3rem;
+    line-height:2.7rem;
     padding-left:2rem;
-    padding-top:1.25rem;
     font-weight:700;
     font-style:italic;
     font-size:0.90rem;
@@ -38,7 +37,7 @@ html{
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     padding-left:1rem;
     padding-top:0.5rem;
-    margin-top:3rem;
+    margin-top:0.2rem;
 }
 .first-section:hover{
     transform:scale(1.02);
@@ -58,7 +57,7 @@ html{
     display:inline-block;
     text-align: left;
     vertical-align:top;
-    padding:5rem;
+    padding:2rem;
 }
 .about-ask-richie-heading{
     color:red;
@@ -121,10 +120,10 @@ html{
     color:#5c5959;
     text-decoration-line: none;
     padding:0.5rem;
-    margin:6rem;
     font-size:0.90rem;
     font-weight:700;
     border:1px solid black;
+    text-align: center;
 }
 .useful-reference-link:hover{
     color:white;
@@ -136,4 +135,6 @@ html{
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     align-items:center;
     padding-left: 1rem;
+    justify-content: space-between;
+    gap:2rem;
     }
