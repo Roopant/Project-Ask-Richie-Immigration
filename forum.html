@@ -4,12 +4,14 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Us</title>
+    <title>Forum</title>
     <link rel="stylesheet" href="assets/css/commonstyle.css">
-    <link rel="stylesheet" href="./Assets/css/contactus.css">
+    <link rel="stylesheet" href="./Assets/css/forum.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;0,900;1,400&display=swap" rel="stylesheet">
+    <noscript>Enable JavaScript to render this page properly</noscript>
+    <script src="./Assets/js/forum.js" defer></script>
 </head>
 <body>
 <header class="header-area">
@@ -25,22 +27,13 @@
         <a class="header-items"href="#">Book a Consultation</a>
     </nav>
 </header>
-    <section class="contact-form">
-        <h2 class="contact-us-title">Contact Us</h2>
-        <form class="contact-us-inputs" action="#" method="POST">
-            <label for="name">Name</label>
-            <input class="contact-form-inputs" id="name"name="Name of the person submitting the message" type="text" placeholder="Enter your full name"required autofocus maxlength="40">
-            <label for="email">E-Mail Address</label>
-            <input class="contact-form-inputs"id="email" name="Email address of the person submitting the message" type="email" placeholder="Enter your email address"required maxlength="40">
-            <label for="subject">Subject</label>
-            <input class="contact-form-inputs" id="subject"name="Subject of the message" type="text"placeholder="Enter proper subject of query"required maxlength="50">
-            <label for="message">Message</label>
-            <textarea class="contact-form-inputs" id="message" name="Message"placeholder="Enter your Query here.."required maxlength="200"></textarea>
-            <button class="contact-us-button">Submit</button>
-        </form>
-          <br>
-          <br>
-    </section>
+    <section class="question-submission-on-forum">
+            <label class="question-forum-title"for="Question" aria-label="Question">Have a Question? Post it here on Forum and We will answer it in 24 Hours...</label>
+            <textarea class="question-input" id="Question" placeholder="Type your Question here.."required maxlength="200"></textarea>
+            <button class="post-submit-button">Post Question</button>
+    </section>        
+    <ul class="posted-questions-title">Questions :
+    </ul>
 <footer class="footer-content">
     <div class="footer-area">
     <img class="ask-richie-logo" src="./Assets/images/transparent Ask Richie Immigration logo.png"alt="ask richie immigration logo">
