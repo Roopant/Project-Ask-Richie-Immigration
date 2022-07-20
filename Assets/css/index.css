@@ -19,6 +19,7 @@ html{
 }
 .free-canada-immigration-support-image{
     width:50vw;
+    height: auto;
     display:inline-block;
     }
 .mission{
@@ -39,12 +40,14 @@ html{
     padding-left:1rem;
     padding-top:0.5rem;
     margin-top:0.2rem;
+    
 }
 .first-section:hover{
     transform:scale(1.02);
 }
 .founder-image{
     width:30vw;
+    height: auto;
     display:inline-block;
     border:1px solid black;
     border-radius:10%;
