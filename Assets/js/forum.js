@@ -4,7 +4,9 @@ const questions=document.querySelector('.posted-questions-title')
 
 
 const postedQuestionTemplate=(questionInputValue)=>{
-    const postedQuestionText =document.createElement('p')
+          if(!questionInputValue){return}
+
+       const postedQuestionText =document.createElement('p')
     postedQuestionText.innerHTML=`&#183 ${questionInputValue}`
 
 
@@ -30,7 +32,14 @@ border:2px solid red;
 background-color: rgba(255, 0, 0, 0.084);
 color:red;
 border-radius: 5px;
-font-family: 'Roboto',system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;`
+font-family: 'Roboto',system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+cursor:pointer;`
+
+deleteBtn.addEventListener('click',()=>{
+    questionList.remove()
+})
+
+
 
 const postedQuestionsButtons =document.createElement('buttons')
 postedQuestionsButtons.appendChild(editBtn)
@@ -42,7 +51,9 @@ postedQuestions.style.cssText=
 `display:flex;
 justify-content:flex-start;
 gap:20px;
-align-items: center;`
+align-items: center;
+flex-wrap: wrap;
+padding-bottom:1em;`
 
 const replybutton=document.createElement('button')
 replybutton.innerHTML='Reply'
@@ -73,5 +84,6 @@ questions.appendChild(questionList)
 
 postSubmitButton.addEventListener('click',()=>{
     postedQuestionTemplate(questionInput.value)
+    questionInput.value=''
 })
 
