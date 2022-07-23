@@ -22,7 +22,16 @@ border-radius: 5px;
 padding : 0.5rem;
 margin-right:1rem;
 font-size:1rem;
-font-family: 'Roboto',system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;`
+font-family: 'Roboto',system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+cursor:pointer;`
+
+editBtn.addEventListener('click',()=>{
+    postedQuestionText.focus()
+    postedQuestionText.setAttribute('contenteditable',true)
+})
+
+
+
 
 deleteBtn.innerHTML='Delete'
 deleteBtn.style.cssText=
