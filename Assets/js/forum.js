@@ -1,10 +1,7 @@
 const questionInput =document.querySelector('.question-input')
 const postSubmitButton=document.querySelector('.post-submit-button')
-const questionList=document.querySelector('.posted-questions-title')
+const questions=document.querySelector('.posted-questions-title')
 
-console.log(questionInput)
-console.log(postSubmitButton)
-console.log(questionList)
 
 const postedQuestionTemplate=(questionInputValue)=>{
     const postedQuestionText =document.createElement('p')
@@ -22,7 +19,8 @@ color:green;
 border-radius: 5px;
 padding : 0.5rem;
 margin-right:1rem;
-font-size:1rem;`
+font-size:1rem;
+font-family: 'Roboto',system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;`
 
 deleteBtn.innerHTML='Delete'
 deleteBtn.style.cssText=
@@ -31,7 +29,8 @@ font-size:1rem;
 border:2px solid red;
 background-color: rgba(255, 0, 0, 0.084);
 color:red;
-border-radius: 5px;`
+border-radius: 5px;
+font-family: 'Roboto',system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;`
 
 const postedQuestionsButtons =document.createElement('buttons')
 postedQuestionsButtons.appendChild(editBtn)
@@ -45,10 +44,31 @@ justify-content:flex-start;
 gap:20px;
 align-items: center;`
 
+const replybutton=document.createElement('button')
+replybutton.innerHTML='Reply'
+replybutton.style.cssText=
+`font-family: 'Roboto',system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    padding:0.4em;
+    font-weight:700;
+    background-color: rgba(158, 95, 95, 0.522);
+    border-radius: 10px;`
+
 postedQuestions.appendChild(postedQuestionText)
 postedQuestions.appendChild(postedQuestionsButtons)
 
+const questionList=document.createElement('section')
 questionList.appendChild(postedQuestions)
+questionList.appendChild(replybutton)
+questionList.style.cssText=
+`border:1px solid grey;
+border-radius:5px;
+width:50vw;
+padding:1em;
+margin-bottom:1em
+`
+
+questions.appendChild(questionList)
+
 }
 
 postSubmitButton.addEventListener('click',()=>{
