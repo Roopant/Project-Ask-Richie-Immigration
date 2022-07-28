@@ -103,6 +103,18 @@ const replyToQuestion=()=>{
     PostedReply.innerHTML=`***${replyText.value}`
     console.log(PostedReply)
     questionList.append(PostedReply)
+
+    const EditReply=document.createElement('button')    
+    EditReply.innerHTML='Edit'
+    EditReply.style.cssText=
+    `cursor:pointer;
+    background-color: green;
+    color:white; 
+    border-color: transparent;
+    border-radius: 10px;
+     margin: 0.5em;`
+    questionList.appendChild(EditReply)
+    
     const DeleteReply=document.createElement('button')    
     DeleteReply.innerHTML='Delete'
     DeleteReply.style.cssText=
@@ -115,9 +127,14 @@ const replyToQuestion=()=>{
     questionList.appendChild(DeleteReply)
 
     DeleteReply.addEventListener('click',()=>{
-        PostedReply.remove();postReplybutton.remove();DeleteReply.remove();replybutton.remove();
-        questionList.appendChild(replybutton)
-    })
+        PostedReply.remove();postReplybutton.remove();DeleteReply.remove();replybutton.remove();EditReply.remove();
+        questionList.appendChild(replybutton)})
+    
+    EditReply.addEventListener('click',()=>{
+        PostedReply.focus();
+        PostedReply.setAttribute('contenteditable',true)
+        
+    } )  
 })    
 
 cancelReplybutton.addEventListener('click',()=>{
