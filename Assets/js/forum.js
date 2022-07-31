@@ -31,6 +31,11 @@ editBtn.addEventListener('click',()=>{
     postedQuestionText.setAttribute('contenteditable',true)
 })
 
+postedQuestionText.addEventListener('blur',()=>{
+    postedQuestionText.setAttribute('contenteditable',false) 
+})
+
+
 deleteBtn.innerHTML='Delete'
 deleteBtn.style.cssText=
 `padding : 0.5rem;
@@ -132,10 +137,13 @@ const replyToQuestion=()=>{
     
     EditReply.addEventListener('click',()=>{
         PostedReply.focus();
-        PostedReply.setAttribute('contenteditable',true)
-        
+        PostedReply.setAttribute('contenteditable',true)})
+
+      PostedReply.addEventListener('blur',()=>{
+        PostedReply.setAttribute('contenteditable',false)
+       
     } )  
-})    
+    })    
 
 cancelReplybutton.addEventListener('click',()=>{
     replyText.remove();postReplybutton.remove();cancelReplybutton.remove();
