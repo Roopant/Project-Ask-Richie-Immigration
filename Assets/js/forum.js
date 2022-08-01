@@ -3,8 +3,80 @@ const postSubmitButton=document.querySelector('.post-submit-button')
 const questions=document.querySelector('.posted-questions-title')
 
 
+let  QuestionsAndReplies=[]
+
+let counter = 0
+
+window.addEventListener('load', () => {
+    const SavedQuestionsAndReplies = JSON.parse(localStorage.getItem('QuestionsAndReplies'))
+    if (Array.isArray(SavedQuestionsAndReplies)) {
+      QuestionsAndReplies = [...SavedQuestionsAndReplies]
+      QuestionsAndReplies.forEach(quereply => {
+        postedQuestionTemplate(quereply.question,quereply.id)
+      })
+      counter = SavedQuestionsAndReplies.length
+    }
+  })
+ 
+const SaveQuestionsAndReplies=(QuestionsAndReplies)=>{
+    localStorage.setItem('QuestionsAndReplies',JSON.stringify(QuestionsAndReplies))
+}
+
+//trying to make array for persistence
+const PostQueinQuestionsAndReplies=(question)=>{
+    if(!question)return
+    QuestionsAndReplies.push({
+        id: getID(true),
+        question,                //Short hand for question:question
+        reply:'no reply'
+       })
+       SaveQuestionsAndReplies(QuestionsAndReplies)
+    
+}
+
+const DeleteQueInQuestionsAndReplies=(id)=>{
+    const index =QuestionsAndReplies.findIndex(quereply=>quereply.id===id)
+    if (index!==-1) QuestionsAndReplies.splice(index,1)
+    console.log(QuestionsAndReplies)
+    SaveQuestionsAndReplies(QuestionsAndReplies)
+}
+
+const EditQueInQuestionsAndReplies=(id,editedQue) =>{
+    const index =QuestionsAndReplies.findIndex(quereply=>quereply.id===id)
+    if (index!==-1) QuestionsAndReplies[index].question=editedQue
+    console.log(QuestionsAndReplies)
+    SaveQuestionsAndReplies(QuestionsAndReplies)
+}
+
+const PostReplyInQuestionsAndReplies=(id, replied)=>{
+    const index =QuestionsAndReplies.findIndex(quereply=>quereply.id===id)
+    if (index!==-1) QuestionsAndReplies[index].reply=replied
+    console.log(QuestionsAndReplies)
+    SaveQuestionsAndReplies(QuestionsAndReplies)
+}
+
+const DeleteReplyInQuestionsAndReplies=(id, replied)=>{
+    const index =QuestionsAndReplies.findIndex(quereply=>quereply.id===id)
+    if (index!==-1) QuestionsAndReplies[index].reply=replied
+    console.log(QuestionsAndReplies)
+    SaveQuestionsAndReplies(QuestionsAndReplies)
+}
+
+const EditReplyInQuestionsAndReplies=(id,editedReply) =>{
+    const index =QuestionsAndReplies.findIndex(quereply=>quereply.id===id)
+    if (index!==-1) QuestionsAndReplies[index].reply=editedReply
+    console.log(QuestionsAndReplies)
+    SaveQuestionsAndReplies(QuestionsAndReplies)
+}
+
+const getID = (isNew)=>{
+   if(isNew) return(counter++).toString()
+    return (counter).toString()
+}
+// Don't push it to github if it doesn't work
+
 /*Function-postedQuestionTemplate*/
-const postedQuestionTemplate=(questionInputValue)=>{
+const postedQuestionTemplate=(questionInputValue,id)=>{
           if(!questionInputValue){return}
 
        const postedQuestionText =document.createElement('p')
@@ -33,6 +105,7 @@ editBtn.addEventListener('click',()=>{
 
 postedQuestionText.addEventListener('blur',()=>{
     postedQuestionText.setAttribute('contenteditable',false) 
+    EditQueInQuestionsAndReplies(replybuttonid,postedQuestionText.innerHTML)
 })
 
 
@@ -49,6 +122,7 @@ cursor:pointer;`
 
 deleteBtn.addEventListener('click',()=>{
     questionList.remove()
+    DeleteQueInQuestionsAndReplies(replybuttonid)
 })
 
 const postedQuestionsButtons =document.createElement('buttons')
@@ -74,6 +148,9 @@ replybutton.style.cssText=
     background-color: rgba(158, 95, 95, 0.522);
     border-radius: 10px;
     margin-right:1em;`
+    replybutton.setAttribute('id',id)
+    const replybuttonid=replybutton.getAttribute('id')
+
 
 // Function-replyQuestion
 const replyToQuestion=()=>{
@@ -87,6 +164,9 @@ const replyToQuestion=()=>{
  background-color: rgba(158, 95, 95, 0.522);
  border-radius: 10px;
  margin: 0em 0.5em`
+ 
+
+
 
    const cancelReplybutton=document.createElement('button')
    cancelReplybutton.innerHTML='Cancel'
@@ -103,11 +183,13 @@ const replyToQuestion=()=>{
 
   postReplybutton.addEventListener('click',()=>{
     if (!replyText.value) {return}
-    replyText.remove();postReplybutton.remove();cancelReplybutton.remove();replybutton.remove();
+     PostReplyInQuestionsAndReplies(replybuttonid,replyText.value)
+     replyText.remove();postReplybutton.remove();cancelReplybutton.remove();replybutton.remove();
     const PostedReply=document.createElement('span')
     PostedReply.innerHTML=`***${replyText.value}`
     console.log(PostedReply)
     questionList.append(PostedReply)
+   
 
     const EditReply=document.createElement('button')    
     EditReply.innerHTML='Edit'
@@ -132,6 +214,7 @@ const replyToQuestion=()=>{
     questionList.appendChild(DeleteReply)
 
     DeleteReply.addEventListener('click',()=>{
+        DeleteReplyInQuestionsAndReplies(replybuttonid,'no reply')
         PostedReply.remove();postReplybutton.remove();DeleteReply.remove();replybutton.remove();EditReply.remove();
         questionList.appendChild(replybutton)})
     
@@ -141,6 +224,7 @@ const replyToQuestion=()=>{
 
       PostedReply.addEventListener('blur',()=>{
         PostedReply.setAttribute('contenteditable',false)
+        EditReplyInQuestionsAndReplies(replybuttonid,PostedReply.innerHTML)
        
     } )  
     })    
@@ -175,7 +259,10 @@ questions.appendChild(questionList)
 }
 
 postSubmitButton.addEventListener('click',()=>{
-    postedQuestionTemplate(questionInput.value)
+    postedQuestionTemplate(questionInput.value,getID())
+   PostQueinQuestionsAndReplies(questionInput.value)
+   console.log(QuestionsAndReplies)
     questionInput.value=''
+    
 })
 
