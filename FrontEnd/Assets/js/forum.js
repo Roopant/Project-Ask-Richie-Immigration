@@ -187,7 +187,7 @@ const replyToQuestion=()=>{
      replyText.remove();postReplybutton.remove();cancelReplybutton.remove();replybutton.remove();
     const PostedReply=document.createElement('span')
     PostedReply.innerHTML=`***${replyText.value}`
-    console.log(PostedReply)
+    //console.log(PostedReply)//
     questionList.append(PostedReply)
    
 
