@@ -9,13 +9,17 @@ FrontEnd Implementation:-
 
 3) I have developed "Contact Us" page where people can contact and send their messages to Richie(owner)
 
+Back-End Implemetation:-
+
+1) Developed a server using Express Node JS to handle RESTful APIs Requests such as GET, POST,PATCH,DELETE without database
+
 Features to implement yet -
 
-1)In back-end , I have to develop a server using Express Node JS and integrate my "Contact Us" page of frontend with backend and MongoDB.
+1) Integration of  "Contact Us" page of frontend with backend and MongoDB.
 
-2) I have to develop one static page "Immigrate" which is rendered from Server-Side.
+2) Development of one static page "Immigrate" using PUG Server-Side rendering
 
-3) I have to develop user signup and login page so that only users can put questions in forum page after authentication and validation is done from Admin.
+3) I have to develop user signup and login page so that only users can put questions in forum page after authentication is done from Admin.
 
 
 
