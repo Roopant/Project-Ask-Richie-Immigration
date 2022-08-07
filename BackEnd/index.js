@@ -51,14 +51,29 @@ app.patch('/api/v1/contact-messages/:id',(req,res)=>{
     const ContactMessage = req.body 
     const index = ContactMessages.findIndex(contactmessage=>contactmessage.id==id)
     if(index ===-1)
-    { res.status(404).send (`No contact message to update with this id ${id}`)}
+    { res.status(404).send (`No contact message to update with this id ${id}`)
+    return}
     const {error,value} =isValidContactMessage(ContactMessage)
     if(!error){
      const UpdatedContactMessage= UpdateContactMessage(ContactMessage,ContactMessages,index)
     res.send(UpdatedContactMessage) 
+    console.log(UpdatedContactMessage)
        return}
      res.status(422).send(error.details[0].message)
     })
+
+/* DELETE endpoint to delete a contact us message*/
+app.delete('/api/v1/contact-messages/:id',(req,res)=>{
+    const {id}=req.params
+    const index =ContactMessages.findIndex(contactmessage=>contactmessage.id==id)
+    if (index ===-1)
+    {res.status(404).send(`No contact message to delete with this id ${id}`)
+     return}
+    const DeletedContactMessage= ContactMessages.splice(index,1)
+    res.send(DeletedContactMessage)
+
+})
+
 
 
 /*Catch All Endpoints*/

@@ -24,8 +24,8 @@ const UpdateContactMessage=(ContactMessage,ContactMessages,index)=>{
     if (ContactMessage[key]){
         ContactMessages[index][key]=ContactMessage[key]
     }
+    }
     return ContactMessages[index]
-   }
 }
     
 
