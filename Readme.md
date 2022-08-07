@@ -13,13 +13,14 @@ Back-End Implemetation:-
 
 1) Developed a server using Express Node JS to handle RESTful APIs Requests such as GET, POST,PATCH,DELETE without database
 
+2) Created Server Side Rendered Page "Immigrate" in PUG template engine by utilizing static assets such as logo and CSS from public folder.
+
 Features to implement yet -
 
 1) Integration of  "Contact Us" page of frontend with backend and MongoDB.
 
-2) Development of one static page "Immigrate" using PUG Server-Side rendering
 
-3) I have to develop user signup and login page so that only users can put questions in forum page after authentication is done from Admin.
+2) User Registeration , Login after Authentication and Authorization access to resources.
 
 
 
