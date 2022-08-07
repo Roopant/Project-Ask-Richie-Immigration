@@ -1,3 +1,4 @@
+/*Import Statements*/
 require('dotenv').config()
 
 const {CreateNewContactMessage, isValidContactMessage,UpdateContactMessage} = require('./utilities/functions')
@@ -9,13 +10,22 @@ const PORT =process.env.PORT || 3000
 
 const ContactMessages = require('./messages-from-contact-us.json')
 
+
+app.set('viewengine','pug') // no need to require pug separately, this would automatically do that
+app.set('views','./views')
+
+/*MiddleWares*/
+
+app.use(express.static('public'))
+
 app.use(express.json()) //middleware between client requests and endpoints of server & parse strings sent.For example- JSON is being transmitted as string to server, this function would parse that JSON string to object to use its functionality and assign it to "body"key of request.
 //app.use(express.urlencoded())
+
 
 /*GET endpoint or routes*/
 
 app.get('/Immigrate',(req,res)=>{
-res.send('You Can Immigrate to Canada in following ways')
+res.render('immigrate.pug',{ContactMessages})
 })
 
 app.get('/api/v1/contact-messages',(req,res)=>{
@@ -74,8 +84,6 @@ app.delete('/api/v1/contact-messages/:id',(req,res)=>{
 
 })
 
-
-
 /*Catch All Endpoints*/
 app.get('*',(req,res)=>{
 res.status(404).send('Not Found')
@@ -87,3 +95,4 @@ res.status(404).send('Not Found')
 app.listen(PORT,()=>{
     console.log(`Server started on port ${PORT}`)
 })
+
