@@ -1,6 +1,9 @@
 /*Import Statements*/
 require('dotenv').config()
 
+//Connect to Mongo Cloud db
+require('./db')() // This will automatically require index.js from folder db and by () it will call it here
+
 const {CreateNewContactMessage, isValidContactMessage,UpdateContactMessage} = require('./utilities/functions')
 
 const express = require('express')
@@ -19,6 +22,7 @@ app.set('views','./views')
 app.use(express.static('public'))
 
 app.use(express.json()) //middleware between client requests and endpoints of server & parse strings sent.For example- JSON is being transmitted as string to server, this function would parse that JSON string to object to use its functionality and assign it to "body"key of request.
+
 //app.use(express.urlencoded())
 
 
