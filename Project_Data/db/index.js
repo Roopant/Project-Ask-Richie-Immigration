@@ -1,10 +1,10 @@
 const mongoose= require('mongoose')
 
 module.exports=()=>{
-    const{DB_USERNAME:dbUserName , DB_PASSWORD:dbPassword}=process.env
+    const{DB_USERNAME:dbUserName , DB_PASSWORD:dbPassword,DB_NAME :dbName}=process.env
 
 
-    const uri=`mongodb+srv://${dbUserName}:${dbPassword}@cluster0.ainzm.mongodb.net/?retryWrites=true&w=majority`
+    const uri=`mongodb+srv://${dbUserName}:${dbPassword}@cluster0.ainzm.mongodb.net/${dbName}?retryWrites=true&w=majority`
 
 mongoose.connect(uri,
     /*{                             These lines are right now optional ,we might need in future to parse 
