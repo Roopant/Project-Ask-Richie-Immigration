@@ -1,0 +1,151 @@
+/* *{
+    outline:1px solid black;
+} */
+/* *{
+    margin:0;
+    padding:0;
+} */
+html{ 
+    font-size:16px;
+    font-family:'Roboto',system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    /* background-color:rgba(211, 211, 211, 0.211); */
+    }
+.main-heading-website{
+    color:#5c5959;
+    border-bottom:2px solid #5c5959;
+    font-size:1.25rem;
+    font-weight:900;
+    
+}
+.free-canada-immigration-support-image{
+    width:50vw;
+    height: auto;
+    display:inline-block;
+    }
+.mission{
+    color:rgb(255, 0, 0);
+    width:30vw;
+    display:inline-block;
+    text-align:center;
+    vertical-align:top;
+    line-height:2.7rem;
+    padding:3rem;
+    font-weight:700;
+    font-style:italic;
+    font-size:0.90rem;
+    
+}
+.first-section{
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    padding-left:1rem;
+    padding-top:0.5rem;
+    margin-top:0.2rem;
+    
+}
+.first-section:hover{
+    transform:scale(1.02);
+}
+.founder-image{
+    width:30vw;
+    height: auto;
+    display:inline-block;
+    border:1px solid black;
+    border-radius:10%;
+    margin:1rem;
+    }
+.founder-image:hover{
+    transform:scale(1.05);
+}
+.about-founder{
+    width:50vw;
+    display:inline-block;
+    text-align: left;
+    vertical-align:top;
+    padding:2rem;
+}
+.about-ask-richie-heading{
+    color:red;
+    font-size:1.15rem;
+    font-weight:900;
+
+}
+.about-ask-richie-content{
+    color:rgb(92, 89, 89);
+    font-size:0.90rem;
+    font-weight:700;
+}
+.express-entry{
+    color:red;
+    font-size:1.15rem;
+    font-weight:900;
+    }
+.express-entry-summary{
+    color:#5c5959;
+    font-size:0.90rem;
+    font-weight:700;
+}
+.express-entry-categories{
+    width:200px;
+    height:200px;
+    display:inline-block;
+    padding:1rem;
+    margin:1rem;
+    border:1px solid black;
+    border-radius: 50%;
+    background-color:rgba(255, 0, 0, 0.1);
+}
+.express-entry-category-title{
+    color:red;
+    text-align:center;
+    font-size:1.05rem;
+    font-weight:700;
+}
+.express-entry-category-content{
+    color:#5c5959;
+    text-align:center;
+    font-size:0.90rem;
+    font-weight:400;
+    font-style:italic;
+}
+.all-express-entry-circles{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+.third-section{
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+    padding-left:1rem;
+    padding-top:1rem;
+}
+.third-section:hover{
+    transform:scale(1.03);
+}
+.useful-reference-link-heading{
+    color:red;
+    font-size:1.15rem;
+    font-weight:900;
+   
+}
+.useful-reference-link{
+    color:#5c5959;
+    text-decoration-line: none;
+    padding:0.5rem;
+    font-size:0.90rem;
+    font-weight:700;
+    border:1px solid black;
+    text-align: center;
+}
+.useful-reference-link:hover{
+    color:white;
+    background-color: red;
+    }
+.useful-reference{
+    display:flex;
+    height:150px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    align-items:center;
+    padding-left: 1rem;
+    justify-content:space-between;
+    flex-wrap: wrap;
+    }
