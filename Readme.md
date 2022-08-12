@@ -3,7 +3,7 @@ Project's Title- Ask Richie Immigration . It is an immigration website telling a
 Project Description- I am developing this project as full-stack both from front-end and back-end.
 
 FrontEnd Implementation:-
-1) I have developed 2 static pages -"Home" page, "About Us" page using HTML 5, Vanilla CSS, giving details to people  about Ask Richie Immigration
+1) I have developed 2 static pages -"Home" page, "About Us" page using HTML 5, Vanilla CSS, giving details to people  about Ask Richie Immigration. These pages are served from public folder using my Express Server 
 
 2) I have  developed "Forum" page where people can post questions and get replies . This forum is a dynamic page having CRUD operationality which is implemented using Vanilla JavaScript. Right now it is persisted within local storage only with some bugs to persist replies.
 
@@ -13,14 +13,13 @@ Back-End Implemetation:-
 
 1) Developed a server using Express Node JS to handle RESTful APIs Requests such as GET, POST,PATCH,DELETE without database
 
-2) Created Server Side Rendered Page "Immigrate" in PUG template engine by utilizing static assets such as logo and CSS from public folder.
+2) Created Server Side Rendered Page "Immigrate" in PUG template engine.
+
+3) Integrated "Contact Us" page frontend with backend and Mongo Cloud DB.
 
 Features to implement yet -
 
-1) Integration of  "Contact Us" page of frontend with backend and MongoDB.
-
-
-2) User Registeration , Login after Authentication and Authorization access to resources.
+1) User Registeration , Login after Authentication and Authorization access to resources.
 
 
 
