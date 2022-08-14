@@ -12,7 +12,7 @@ window.addEventListener('load', () => {
     if (Array.isArray(SavedQuestionsAndReplies)) {
       QuestionsAndReplies = [...SavedQuestionsAndReplies]
       QuestionsAndReplies.forEach(quereply => {
-        postedQuestionTemplate(quereply.question,quereply.id)
+        postedQuestionTemplate(quereply.question,quereply.id,quereply.reply)
       })
       counter = SavedQuestionsAndReplies.length
     }
@@ -28,7 +28,7 @@ const PostQueinQuestionsAndReplies=(question)=>{
     QuestionsAndReplies.push({
         id: getID(true),
         question,                //Short hand for question:question
-        reply:'no reply'
+        reply:''
        })
        SaveQuestionsAndReplies(QuestionsAndReplies)
     
@@ -76,7 +76,7 @@ const getID = (isNew)=>{
 // Don't push it to github if it doesn't work
 
 /*Function-postedQuestionTemplate*/
-const postedQuestionTemplate=(questionInputValue,id)=>{
+const postedQuestionTemplate=(questionInputValue,id,reply)=>{
           if(!questionInputValue){return}
 
        const postedQuestionText =document.createElement('p')
@@ -156,6 +156,8 @@ replybutton.style.cssText=
 const replyToQuestion=()=>{
  const replyText=document.createElement('input')
  const postReplybutton=document.createElement('button')
+ 
+ postReplybutton.setAttribute('id','postButton')
  postReplybutton.innerHTML='POST'
  postReplybutton.style.cssText=
  `font-family: 'Roboto',system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
@@ -166,9 +168,7 @@ const replyToQuestion=()=>{
  margin: 0em 0.5em`
  
 
-
-
-   const cancelReplybutton=document.createElement('button')
+ const cancelReplybutton=document.createElement('button')
    cancelReplybutton.innerHTML='Cancel'
    cancelReplybutton.style.cssText=
    `font-family: 'Roboto',system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
@@ -185,13 +185,37 @@ const replyToQuestion=()=>{
     if (!replyText.value) {return}
      PostReplyInQuestionsAndReplies(replybuttonid,replyText.value)
      replyText.remove();postReplybutton.remove();cancelReplybutton.remove();replybutton.remove();
-    const PostedReply=document.createElement('span')
-    PostedReply.innerHTML=`***${replyText.value}`
-    //console.log(PostedReply)//
-    questionList.append(PostedReply)
-   
+    postedReplyTemplate(replybuttonid,replyText.value,questionList);
+})
 
-    const EditReply=document.createElement('button')    
+    /*const PostedReply=document.createElement('span')
+    PostedReply.innerHTML=`***${replyText.value}`
+    questionList.append(PostedReply)*/
+   
+    cancelReplybutton.addEventListener('click',()=>{
+        replyText.remove();postReplybutton.remove();cancelReplybutton.remove();
+    })
+    
+}
+    replybutton.addEventListener('click',()=>{
+        replyToQuestion()
+        })
+
+    postedQuestions.appendChild(postedQuestionText)
+    postedQuestions.appendChild(postedQuestionsButtons)    
+
+  const postedReplyTemplate=(replybuttonid,reply,questionList)=>{
+    if(!reply){return}
+    const PostedReply=document.createElement('span')
+    const starTag=document.createElement('span')
+    starTag.innerHTML='***'
+    PostedReply.innerHTML=`${reply}`
+    console.log(PostedReply)
+    questionList.append(starTag)
+    questionList.append(PostedReply)
+  
+
+ const EditReply=document.createElement('button')    
     EditReply.innerHTML='Edit'
     EditReply.style.cssText=
     `cursor:pointer;
@@ -214,8 +238,11 @@ const replyToQuestion=()=>{
     questionList.appendChild(DeleteReply)
 
     DeleteReply.addEventListener('click',()=>{
-        DeleteReplyInQuestionsAndReplies(replybuttonid,'no reply')
-        PostedReply.remove();postReplybutton.remove();DeleteReply.remove();replybutton.remove();EditReply.remove();
+        DeleteReplyInQuestionsAndReplies(replybuttonid,'')
+        starTag.remove();
+        PostedReply.remove();
+        //postReplybutton.remove();
+        DeleteReply.remove();replybutton.remove();EditReply.remove();
         questionList.appendChild(replybutton)})
     
     EditReply.addEventListener('click',()=>{
@@ -227,25 +254,19 @@ const replyToQuestion=()=>{
         EditReplyInQuestionsAndReplies(replybuttonid,PostedReply.innerHTML)
        
     } )  
-    })    
-
-cancelReplybutton.addEventListener('click',()=>{
-    replyText.remove();postReplybutton.remove();cancelReplybutton.remove();
-})
-
-}
+    }   
 
 
-replybutton.addEventListener('click',()=>{
-    replyToQuestion()
-    })
+/*const PostReply=document.createElement('div')
+    PostReply.innerHTML=`***${reply}`
+    postedQuestions.append(PostReply)*/
 
-postedQuestions.appendChild(postedQuestionText)
-postedQuestions.appendChild(postedQuestionsButtons)
 
 const questionList=document.createElement('section')
 questionList.appendChild(postedQuestions)
-questionList.appendChild(replybutton)
+if(!reply) {questionList.appendChild(replybutton)}
+else{ postedReplyTemplate(id,reply,questionList)}
+
 questionList.style.cssText=
 `border:1px solid grey;
 border-radius:5px;
@@ -255,7 +276,6 @@ margin-bottom:1em
 `
 
 questions.appendChild(questionList)
-
 }
 
 postSubmitButton.addEventListener('click',()=>{
@@ -265,4 +285,3 @@ postSubmitButton.addEventListener('click',()=>{
     questionInput.value=''
     
 })
-
