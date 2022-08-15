@@ -5,26 +5,26 @@ const contactusmessageSchema = new mongoose.Schema({
       Name: {
         type : String,
         required : [true, 'Name is required'],
-        min :3,
-        max :40
+        minLength :3,
+        maxLength :40
       },
       Email_Address :{
         type : String,
         required : [true, 'Emailaddress is required'],
-        min :3,
-        max :40
+        minLength :3,
+        maxLength :40
       },
       Subject: {
         type : String,
         required : [true, 'Subject is required'],
-        min :3,
-        max :50
+        minLength :3,
+        maxLength :50
       },
       Message :{
         type : String,
         required : [true, 'Message is required'],
-        min :3,
-        max :200
+        minLength :3,
+        maxLength :200
       }
 
 })

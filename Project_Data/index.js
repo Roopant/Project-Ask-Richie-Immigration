@@ -6,6 +6,7 @@ require('./db')() // This will automatically require index.js from folder db and
 
 const express = require('express')
 const app = express()
+const cors = require ('cors')
 
 const port =process.env.PORT || 3000
 

@@ -5,14 +5,13 @@ const questionSchema = new mongoose.Schema({
       question: {
         type : String,
         required : [true, 'question text is required'],
-        min :5,
-        max :512
+        minlength: 5,
+        maxlength: 512
       },
       reply :{
         type : String,
-        min :5,
-        max :512,
-        default: ''
+        default: '',
+        
       },
 
 

@@ -3,70 +3,74 @@ const postSubmitButton=document.querySelector('.post-submit-button')
 const questions=document.querySelector('.posted-questions-title')
 
 
-let  QuestionsAndReplies=[]
+let  Questions=[]
 
 let counter = 0
 
 window.addEventListener('load', () => {
-    const SavedQuestionsAndReplies = JSON.parse(localStorage.getItem('QuestionsAndReplies'))
-    if (Array.isArray(SavedQuestionsAndReplies)) {
-      QuestionsAndReplies = [...SavedQuestionsAndReplies]
-      QuestionsAndReplies.forEach(quereply => {
-        postedQuestionTemplate(quereply.question,quereply.id,quereply.reply)
+    const SavedQuestions = JSON.parse(localStorage.getItem('Questions'))
+    if (Array.isArray(SavedQuestions)) {
+      Questions = [...SavedQuestions]
+      Questions.forEach(que => {
+        postedQuestionTemplate(que.question,que.id,que.reply)
       })
-      counter = SavedQuestionsAndReplies.length
+      counter = SavedQuestions.length
     }
   })
  
-const SaveQuestionsAndReplies=(QuestionsAndReplies)=>{
-    localStorage.setItem('QuestionsAndReplies',JSON.stringify(QuestionsAndReplies))
-}
+const SaveQuestions= async (question)=>{
+    console.log(question)
+    const uri= 'http://localhost:3000/api/v1/forum-questions'
+    const options = {
+        method : 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+          },
+        body: JSON.stringify(question),
+    }
+    try{
+        const response = await fetch(uri,options)
+        const data = await response.json()
+        console.log('data',data)
+        } catch(err) 
+        {console.log(err.message)} 
+    }
 
-//trying to make array for persistence
-const PostQueinQuestionsAndReplies=(question)=>{
-    if(!question)return
-    QuestionsAndReplies.push({
-        id: getID(true),
-        question,                //Short hand for question:question
-        reply:''
-       })
-       SaveQuestionsAndReplies(QuestionsAndReplies)
     
+
+const DeleteQueInQuestions=(id)=>{
+    const index =Questions.findIndex(que=>que.id===id)
+    if (index!==-1) Questions.splice(index,1)
+    console.log(Questions)
+    SaveQuestions(Questions)
 }
 
-const DeleteQueInQuestionsAndReplies=(id)=>{
-    const index =QuestionsAndReplies.findIndex(quereply=>quereply.id===id)
-    if (index!==-1) QuestionsAndReplies.splice(index,1)
-    console.log(QuestionsAndReplies)
-    SaveQuestionsAndReplies(QuestionsAndReplies)
+const EditQueInQuestions=(id,editedQue) =>{
+    const index =Questions.findIndex(que=>que.id===id)
+    if (index!==-1) Questions[index].question=editedQue
+    console.log(Questions)
+    SaveQuestions(Questions)
 }
 
-const EditQueInQuestionsAndReplies=(id,editedQue) =>{
-    const index =QuestionsAndReplies.findIndex(quereply=>quereply.id===id)
-    if (index!==-1) QuestionsAndReplies[index].question=editedQue
-    console.log(QuestionsAndReplies)
-    SaveQuestionsAndReplies(QuestionsAndReplies)
+const PostReplyInQuestions=(id, replied)=>{
+    const index =Questions.findIndex(que=>que.id===id)
+    if (index!==-1) Questions[index].reply=replied
+    console.log(Questions)
+    SaveQuestions(Questions)
 }
 
-const PostReplyInQuestionsAndReplies=(id, replied)=>{
-    const index =QuestionsAndReplies.findIndex(quereply=>quereply.id===id)
-    if (index!==-1) QuestionsAndReplies[index].reply=replied
-    console.log(QuestionsAndReplies)
-    SaveQuestionsAndReplies(QuestionsAndReplies)
+const DeleteReplyInQuestions=(id, replied)=>{
+    const index =Questions.findIndex(que=>que.id===id)
+    if (index!==-1) Questions[index].reply=replied
+    console.log(Questions)
+    SaveQuestions(Questions)
 }
 
-const DeleteReplyInQuestionsAndReplies=(id, replied)=>{
-    const index =QuestionsAndReplies.findIndex(quereply=>quereply.id===id)
-    if (index!==-1) QuestionsAndReplies[index].reply=replied
-    console.log(QuestionsAndReplies)
-    SaveQuestionsAndReplies(QuestionsAndReplies)
-}
-
-const EditReplyInQuestionsAndReplies=(id,editedReply) =>{
-    const index =QuestionsAndReplies.findIndex(quereply=>quereply.id===id)
-    if (index!==-1) QuestionsAndReplies[index].reply=editedReply
-    console.log(QuestionsAndReplies)
-    SaveQuestionsAndReplies(QuestionsAndReplies)
+const EditReplyInQuestions=(id,editedReply) =>{
+    const index =Questions.findIndex(que=>que.id===id)
+    if (index!==-1) Questions[index].reply=editedReply
+    console.log(Questions)
+    SaveQuestions(Questions)
 }
 
 const getID = (isNew)=>{
@@ -105,7 +109,7 @@ editBtn.addEventListener('click',()=>{
 
 postedQuestionText.addEventListener('blur',()=>{
     postedQuestionText.setAttribute('contenteditable',false) 
-    EditQueInQuestionsAndReplies(replybuttonid,postedQuestionText.innerHTML)
+    EditQueInQuestions(replybuttonid,postedQuestionText.innerHTML)
 })
 
 
@@ -122,7 +126,7 @@ cursor:pointer;`
 
 deleteBtn.addEventListener('click',()=>{
     questionList.remove()
-    DeleteQueInQuestionsAndReplies(replybuttonid)
+    DeleteQueInQuestions(replybuttonid)
 })
 
 const postedQuestionsButtons =document.createElement('buttons')
@@ -183,15 +187,11 @@ const replyToQuestion=()=>{
 
   postReplybutton.addEventListener('click',()=>{
     if (!replyText.value) {return}
-     PostReplyInQuestionsAndReplies(replybuttonid,replyText.value)
+     PostReplyInQuestions(replybuttonid,replyText.value)
      replyText.remove();postReplybutton.remove();cancelReplybutton.remove();replybutton.remove();
     postedReplyTemplate(replybuttonid,replyText.value,questionList);
 })
 
-    /*const PostedReply=document.createElement('span')
-    PostedReply.innerHTML=`***${replyText.value}`
-    questionList.append(PostedReply)*/
-   
     cancelReplybutton.addEventListener('click',()=>{
         replyText.remove();postReplybutton.remove();cancelReplybutton.remove();
     })
@@ -238,7 +238,7 @@ const replyToQuestion=()=>{
     questionList.appendChild(DeleteReply)
 
     DeleteReply.addEventListener('click',()=>{
-        DeleteReplyInQuestionsAndReplies(replybuttonid,'')
+        DeleteReplyInQuestions(replybuttonid,'')
         starTag.remove();
         PostedReply.remove();
         //postReplybutton.remove();
@@ -251,7 +251,7 @@ const replyToQuestion=()=>{
 
       PostedReply.addEventListener('blur',()=>{
         PostedReply.setAttribute('contenteditable',false)
-        EditReplyInQuestionsAndReplies(replybuttonid,PostedReply.innerHTML)
+        EditReplyInQuestions(replybuttonid,PostedReply.innerHTML)
        
     } )  
     }   
@@ -278,10 +278,11 @@ margin-bottom:1em
 questions.appendChild(questionList)
 }
 
-postSubmitButton.addEventListener('click',()=>{
+
+postSubmitButton.addEventListener('click',async ()=>{
     postedQuestionTemplate(questionInput.value,getID())
-   PostQueinQuestionsAndReplies(questionInput.value)
-   console.log(QuestionsAndReplies)
+   await SaveQuestions({question:questionInput.value})
+  //console.log(Questions)
     questionInput.value=''
     
 })
