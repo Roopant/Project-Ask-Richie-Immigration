@@ -7,9 +7,10 @@ require('./db')() // This will automatically require index.js from folder db and
 const express = require('express')
 const app = express()
 
-const PORT =process.env.PORT || 3000
+const port =process.env.PORT || 3000
 
 const {getContactMessages,createNewContactMessage,updateContactMessage,deleteContactMessage,getContactMessage}=require('./controllers').contactusmessage
+const{getQuestion,getQuestions,editQuestion,deleteQuestion,postQuestion}=require('./controllers').question
 
 app.set('viewengine','pug') // no need to require pug separately, this would automatically do that
 app.set('views','./views')
@@ -37,13 +38,27 @@ app.post('/api/v1/contact-messages',createNewContactMessage) //POST endpoint to 
 app.patch('/api/v1/contact-messages/:id',updateContactMessage) //PATCH endpoint to update a contact us message
 app.delete('/api/v1/contact-messages/:id',deleteContactMessage) ///DELETE endpoint to delete a contact us message
 
+/*CRUD operations for forum questions and replies endpoints*/
+ app.route('/api/v1/forum-questions/:id')
+.get(getQuestion)
+.patch(editQuestion)
+//.patch(postReply)
+//.patch(editReply)
+//.patch(deleteReply)
+.delete(deleteQuestion)
+
+app.route('/api/v1/forum-questions')
+.get(getQuestions)
+.post(postQuestion)
+
+
 /*Catch All Endpoints*/
 app.get('*',(req,res)=>{
-res.status(404).send('Not Found')
+res.status(404).send('404 Not Found')
 })
 
 /*Start Server*/
-app.listen(PORT,()=>{
-    console.log(`Server started on port ${PORT}`)
+app.listen(port,()=>{
+    console.log(`Server started on port ${port}`)
 })
 

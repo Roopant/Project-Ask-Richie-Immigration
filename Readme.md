@@ -11,7 +11,7 @@ FrontEnd Implementation:-
 
 Back-End Implemetation:-
 
-1) Developed a server using Express Node JS to handle RESTful APIs Requests such as GET, POST,PATCH,DELETE without database
+1) Developed a server using Express Node JS to handle RESTful APIs Requests such as GET, POST,PATCH,DELETE with Mongo Cloud database
 
 2) Created Server Side Rendered Page "Immigrate" in PUG template engine.
 
