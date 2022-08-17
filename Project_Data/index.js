@@ -40,12 +40,10 @@ app.patch('/api/v1/contact-messages/:id',updateContactMessage) //PATCH endpoint 
 app.delete('/api/v1/contact-messages/:id',deleteContactMessage) ///DELETE endpoint to delete a contact us message
 
 /*CRUD operations for forum questions and replies endpoints*/
- app.route('/api/v1/forum-questions/:id')
+ 
+app.route('/api/v1/forum-questions/:_id')
 .get(getQuestion)
 .patch(editQuestion)
-//.patch(postReply)
-//.patch(editReply)
-//.patch(deleteReply)
 .delete(deleteQuestion)
 
 app.route('/api/v1/forum-questions')

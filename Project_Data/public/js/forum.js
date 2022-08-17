@@ -5,22 +5,47 @@ const questions=document.querySelector('.posted-questions-title')
 
 let  Questions=[]
 
-let counter = 0
+const uri= 'http://localhost:3000/api/v1/forum-questions'
 
-window.addEventListener('load', () => {
-    const SavedQuestions = JSON.parse(localStorage.getItem('Questions'))
-    if (Array.isArray(SavedQuestions)) {
-      Questions = [...SavedQuestions]
-      Questions.forEach(que => {
-        postedQuestionTemplate(que.question,que.id,que.reply)
-      })
-      counter = SavedQuestions.length
+//let counter = 0
+
+/*Show & hide error message*/
+const errorMsg= document.querySelector('.error-msg-container')
+const errorMsgText=document.querySelector('.error-text')
+
+const showErrorMsg = (msg) => {
+    errorMsgText.innerText = msg || 'Error while doing any operations!'
+    errorMsg.style.display = 'block'
+  }
+
+  const hideErrorMsg = () => (errorMsg.style.display = 'none')
+
+/*Show & hide error message*/
+
+window.addEventListener('load', async () => {
+    const options = {
+        method : 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+          }
     }
-  })
+    try{
+        const response = await fetch(uri,options)
+        const data = await response.json()
+        console.log('data',data)
+        if (Array.isArray(data))  {
+            Questions = data
+        data.forEach(que => {
+          postedQuestionTemplate(que.question,que._id,que.reply)
+        })
+        } 
+    }catch(err) 
+        {console.error(err.message)} 
+    })
+
  
 const SaveQuestions= async (question)=>{
-    console.log(question)
-    const uri= 'http://localhost:3000/api/v1/forum-questions'
+    return new Promise (async(resolve,reject)=>{
     const options = {
         method : 'POST',
         headers: {
@@ -32,59 +57,99 @@ const SaveQuestions= async (question)=>{
         const response = await fetch(uri,options)
         const data = await response.json()
         console.log('data',data)
+        resolve(data)
+        hideErrorMsg()
         } catch(err) 
-        {console.log(err.message)} 
-    }
-
-    
-
-const DeleteQueInQuestions=(id)=>{
-    const index =Questions.findIndex(que=>que.id===id)
-    if (index!==-1) Questions.splice(index,1)
-    console.log(Questions)
-    SaveQuestions(Questions)
+        {console.error(err.message)
+        showErrorMsg(err.message)
+         reject(err)} 
+    })
 }
 
+const EditQuestion= async (question)=>{
+    return new Promise (async(resolve,reject)=>{
+     const options = {
+        method : 'PATCH',
+        headers: {
+            'Content-Type': 'application/json'
+          },
+        body: JSON.stringify(question),
+    }
+    try{
+        const response = await fetch(`${uri}/${question._id}`,options)
+        const data = await response.json()
+        console.log('data',data)
+        hideErrorMsg()
+        resolve(data)
+        } catch(err) 
+        {console.error(err.message)
+        showErrorMsg(err.message)
+         reject(err)} 
+    })}
+    
+
+const DeleteQuestion=async (id)=>{
+    return new Promise(async(resolve,reject)=>
+    {const index =Questions.findIndex(que=>que._id===id) // for this logic to work , we need to push whatever new is created in SaveQuestions function
+    if (index!==-1) 
+        {const options = {
+                method : 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                  },
+            }
+            try{
+                const response = await fetch(`${uri}/${id}`,options)
+                const data = await response.json()
+                console.log('data',data)
+                hideErrorMsg()
+                resolve()
+                } catch(err) 
+                {console.error(err.message)
+                showErrorMsg(err.message)
+                 reject(error)} 
+            }
+        })
+    }
+
+
 const EditQueInQuestions=(id,editedQue) =>{
-    const index =Questions.findIndex(que=>que.id===id)
+    const index =Questions.findIndex(que=>que._id===id)
     if (index!==-1) Questions[index].question=editedQue
-    console.log(Questions)
-    SaveQuestions(Questions)
+    EditQuestion(Questions[index])
 }
 
 const PostReplyInQuestions=(id, replied)=>{
-    const index =Questions.findIndex(que=>que.id===id)
+    const index =Questions.findIndex(que=>que._id===id)
     if (index!==-1) Questions[index].reply=replied
-    console.log(Questions)
-    SaveQuestions(Questions)
+    EditQuestion(Questions[index])
+    
 }
 
 const DeleteReplyInQuestions=(id, replied)=>{
-    const index =Questions.findIndex(que=>que.id===id)
+    const index =Questions.findIndex(que=>que._id===id)
     if (index!==-1) Questions[index].reply=replied
-    console.log(Questions)
-    SaveQuestions(Questions)
+    EditQuestion(Questions[index])
 }
 
 const EditReplyInQuestions=(id,editedReply) =>{
-    const index =Questions.findIndex(que=>que.id===id)
+    const index =Questions.findIndex(que=>que._id===id)
     if (index!==-1) Questions[index].reply=editedReply
-    console.log(Questions)
-    SaveQuestions(Questions)
+    EditQuestion(Questions[index])
 }
 
-const getID = (isNew)=>{
+/*const getID = (isNew)=>{
    if(isNew) return(counter++).toString()
     return (counter).toString()
-}
-// Don't push it to github if it doesn't work
+}*/
+
 
 /*Function-postedQuestionTemplate*/
 const postedQuestionTemplate=(questionInputValue,id,reply)=>{
           if(!questionInputValue){return}
 
        const postedQuestionText =document.createElement('p')
-    postedQuestionText.innerHTML=`&#183 ${questionInputValue}`
+    postedQuestionText.innerHTML=`${questionInputValue}`
 
 
    const editBtn=document.createElement('button')
@@ -103,11 +168,13 @@ font-family: 'Roboto',system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', 
 cursor:pointer;`
 
 editBtn.addEventListener('click',()=>{
-    postedQuestionText.focus()
-    postedQuestionText.setAttribute('contenteditable',true)
+    postedQuestionText.setAttribute('contenteditable',true);
+    postedQuestionText.focus();
+    hideErrorMsg();
 })
 
 postedQuestionText.addEventListener('blur',()=>{
+    
     postedQuestionText.setAttribute('contenteditable',false) 
     EditQueInQuestions(replybuttonid,postedQuestionText.innerHTML)
 })
@@ -125,9 +192,8 @@ font-family: 'Roboto',system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', 
 cursor:pointer;`
 
 deleteBtn.addEventListener('click',()=>{
-    questionList.remove()
-    DeleteQueInQuestions(replybuttonid)
-})
+    DeleteQuestion(replybuttonid).then(()=> questionList.remove()).catch(err => console.error(err.message))
+   })
 
 const postedQuestionsButtons =document.createElement('buttons')
 postedQuestionsButtons.appendChild(editBtn)
@@ -154,6 +220,7 @@ replybutton.style.cssText=
     margin-right:1em;`
     replybutton.setAttribute('id',id)
     const replybuttonid=replybutton.getAttribute('id')
+    console.log(replybuttonid)
 
 
 // Function-replyQuestion
@@ -189,16 +256,19 @@ const replyToQuestion=()=>{
     if (!replyText.value) {return}
      PostReplyInQuestions(replybuttonid,replyText.value)
      replyText.remove();postReplybutton.remove();cancelReplybutton.remove();replybutton.remove();
-    postedReplyTemplate(replybuttonid,replyText.value,questionList);
+    postedReplyTemplate(replybuttonid,replyText.value,questionList)
+    
 })
 
     cancelReplybutton.addEventListener('click',()=>{
-        replyText.remove();postReplybutton.remove();cancelReplybutton.remove();
+        replyText.remove();postReplybutton.remove();cancelReplybutton.remove()
+        hideErrorMsg();
     })
     
 }
     replybutton.addEventListener('click',()=>{
         replyToQuestion()
+        hideErrorMsg()
         })
 
     postedQuestions.appendChild(postedQuestionText)
@@ -207,11 +277,8 @@ const replyToQuestion=()=>{
   const postedReplyTemplate=(replybuttonid,reply,questionList)=>{
     if(!reply){return}
     const PostedReply=document.createElement('span')
-    const starTag=document.createElement('span')
-    starTag.innerHTML='***'
     PostedReply.innerHTML=`${reply}`
     console.log(PostedReply)
-    questionList.append(starTag)
     questionList.append(PostedReply)
   
 
@@ -239,15 +306,17 @@ const replyToQuestion=()=>{
 
     DeleteReply.addEventListener('click',()=>{
         DeleteReplyInQuestions(replybuttonid,'')
-        starTag.remove();
         PostedReply.remove();
         //postReplybutton.remove();
         DeleteReply.remove();replybutton.remove();EditReply.remove();
-        questionList.appendChild(replybutton)})
+        questionList.appendChild(replybutton);
+        hideErrorMsg()})
     
     EditReply.addEventListener('click',()=>{
+        PostedReply.setAttribute('contenteditable',true)
         PostedReply.focus();
-        PostedReply.setAttribute('contenteditable',true)})
+        hideErrorMsg()})
+
 
       PostedReply.addEventListener('blur',()=>{
         PostedReply.setAttribute('contenteditable',false)
@@ -256,7 +325,8 @@ const replyToQuestion=()=>{
     } )  
     }   
 
-
+    
+    
 /*const PostReply=document.createElement('div')
     PostReply.innerHTML=`***${reply}`
     postedQuestions.append(PostReply)*/
@@ -279,10 +349,16 @@ questions.appendChild(questionList)
 }
 
 
-postSubmitButton.addEventListener('click',async ()=>{
-    postedQuestionTemplate(questionInput.value,getID())
-   await SaveQuestions({question:questionInput.value})
-  //console.log(Questions)
-    questionInput.value=''
+postSubmitButton.addEventListener('click',()=>{
+    SaveQuestions({question:questionInput.value}).then(que=>{
+        console.log(que)
+        postedQuestionTemplate(que.question,que._id,que.reply)
+        Questions.push(que)
+        questionInput.value=''
+    }).catch(err => console.error(err.message))
     
+})
+
+questionInput.addEventListener('focus',()=>{
+    hideErrorMsg()
 })

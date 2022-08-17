@@ -7,8 +7,9 @@ const getQuestion= (req,res)=>{
 const getQuestions= async (req,res)=>{
     try{
     const Questions = await QuestionModel.find().exec()
-    res.send(Questions)}
-catch(e){
+    res.send(Questions)
+     return
+    }catch(e){
     res.status(500).send(e.message)
 }}
 
@@ -16,7 +17,6 @@ catch(e){
 const postQuestion= async (req,res)=>{
     try{ 
         const Question = req.body 
-        console.log(Question)
         const NewQuestion = await QuestionModel.create(Question)
         res.send(NewQuestion) 
        return
@@ -27,18 +27,28 @@ const postQuestion= async (req,res)=>{
 
 
 const editQuestion= async (req,res)=>{
-res.send('edit que, post/edit/delete reply to que')
-}    
+    try {
+      const {_id} = req.params
+      const {question,reply} = req.body
+
+      await QuestionModel.updateOne({_id},{question,reply},{runValidators:true}).exec()
+      const editedQuestion = await QuestionModel.findById(_id).exec()
+      res.send(editedQuestion)
+    } catch (e) {
+      res.status(500).send(e.message)
+    }
+  }
 
 
-const deleteQuestion =(req,res)=>{res.send('deleted question')}
-
-/*const postReply =(req,res)=>{res.send('posted reply to question')}
-const editReply=(req,res)=>{res.send('edited reply to questions')}
-const deleteReply =(req,res)=>{res.send('deleted reply to question')}*/
-
-
-
+const deleteQuestion =async (req,res)=>{
+  try {
+    const {_id} = req.params
+    await QuestionModel.findByIdAndDelete(_id).exec()
+    res.send({message:`Question with id ${_id} has been deleted successfully`})
+  } catch (e) {
+    res.status(500).send(e.message)
+  }
+}
 
 
 module.exports={getQuestion,getQuestions,editQuestion,deleteQuestion,postQuestion}
