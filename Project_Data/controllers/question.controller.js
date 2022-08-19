@@ -1,8 +1,6 @@
 const QuestionModel= require('../db/models').Question
 
-const getQuestion= (req,res)=>{
-    res.send('get one question')
-}
+
 
 const getQuestions= async (req,res)=>{
     try{
@@ -51,4 +49,4 @@ const deleteQuestion =async (req,res)=>{
 }
 
 
-module.exports={getQuestion,getQuestions,editQuestion,deleteQuestion,postQuestion}
+module.exports={getQuestions,editQuestion,deleteQuestion,postQuestion}

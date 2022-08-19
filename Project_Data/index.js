@@ -11,8 +11,8 @@ const cors = require ('cors')
 const port =process.env.PORT || 3000
 
 const {getContactMessages,createNewContactMessage,updateContactMessage,deleteContactMessage,getContactMessage}=require('./controllers').contactusmessage
-const{getQuestion,getQuestions,editQuestion,deleteQuestion,postQuestion}=require('./controllers').question
-
+const{getQuestions,editQuestion,deleteQuestion,postQuestion}=require('./controllers').question
+const {register,login}=require('./controllers').user
 app.set('viewengine','pug') // no need to require pug separately, this would automatically do that
 app.set('views','./views')
 
@@ -24,13 +24,20 @@ app.use(express.json()) //middleware between client requests and endpoints of se
 
 app.use(express.urlencoded({ extended: true }))
 
-
+app.use(cors())
 
 /*Server-Side Rendered Page through PUG*/
 
 app.get('/Immigrate',(req,res)=>{
 res.render('immigrate.pug',{})
 })
+
+/*User Endpoints*/
+
+app.post('/register',register)
+app.post('/login',login)
+
+
 
 /*CRUD operations for Contact Us Form Page Messages Endpoints*/
 app.get('/api/v1/contact-messages',getContactMessages)
@@ -42,7 +49,6 @@ app.delete('/api/v1/contact-messages/:id',deleteContactMessage) ///DELETE endpoi
 /*CRUD operations for forum questions and replies endpoints*/
  
 app.route('/api/v1/forum-questions/:_id')
-.get(getQuestion)
 .patch(editQuestion)
 .delete(deleteQuestion)
 

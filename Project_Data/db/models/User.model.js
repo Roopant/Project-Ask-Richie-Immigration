@@ -7,18 +7,20 @@ const userSchema = new mongoose.Schema({
         required:[true,'email is required'],
         unique:true,
         match :[/^\S+@\S+$/g,'invalid email format'],              // Putting regex expression to match between two forward slashes and g is global 
-        min :5,
-        max : 128
+        minLength :5,
+        maxLength : 128
 
     },
       passwordHash :{
         type : String,
         required:[true,'password is required'],
-        min : 8,
-        max :128
+        minLength : 8,
+        maxLength :128
       },
-      isAdmin :Boolean
-      }
+      isAdmin :{
+        type :Boolean,
+        default: false
+      }}
 )
 //Schema
 
