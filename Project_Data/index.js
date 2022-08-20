@@ -13,6 +13,7 @@ const port =process.env.PORT || 3000
 const {getContactMessages,createNewContactMessage,updateContactMessage,deleteContactMessage,getContactMessage}=require('./controllers').contactusmessage
 const{getQuestions,editQuestion,deleteQuestion,postQuestion}=require('./controllers').question
 const {register,login}=require('./controllers').user
+const auth=require('./auth')
 app.set('viewengine','pug') // no need to require pug separately, this would automatically do that
 app.set('views','./views')
 
@@ -37,9 +38,8 @@ res.render('immigrate.pug',{})
 app.post('/register',register)
 app.post('/login',login)
 
-
-
 /*CRUD operations for Contact Us Form Page Messages Endpoints*/
+
 app.get('/api/v1/contact-messages',getContactMessages)
 app.get('/api/v1/contact-messages/:id',getContactMessage)
 app.post('/api/v1/contact-messages',createNewContactMessage) //POST endpoint to add a new contact us message from contact us form
@@ -47,13 +47,16 @@ app.patch('/api/v1/contact-messages/:id',updateContactMessage) //PATCH endpoint 
 app.delete('/api/v1/contact-messages/:id',deleteContactMessage) ///DELETE endpoint to delete a contact us message
 
 /*CRUD operations for forum questions and replies endpoints*/
- 
+app.route('/api/v1/forum-questions')
+.get(getQuestions) 
+
+
+//app.use(auth)
 app.route('/api/v1/forum-questions/:_id')
 .patch(editQuestion)
 .delete(deleteQuestion)
 
 app.route('/api/v1/forum-questions')
-.get(getQuestions)
 .post(postQuestion)
 
 

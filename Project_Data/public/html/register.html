@@ -4,12 +4,51 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Us</title>
+    <title>Register</title>
     <link rel="stylesheet" href="/css/commonstyle.css">
     <link rel="stylesheet" href="/css/contactus.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;0,900;1,400&display=swap" rel="stylesheet">
+    <style>
+        .register{
+            display:flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items:center;
+            gap:10px;
+            background-color: lightpink;
+            width: 40vw;
+            margin-left: 30vw;
+           }
+    form{
+        display: flex;
+        flex-direction: column;
+        gap:10px;
+        justify-content: center;
+        align-items: center;
+        padding: 1rem;
+        font-size:1.25rem;
+        color:red;
+        font-weight: 700;
+    }
+    input{
+    height:2rem;
+    width:20rem;
+    padding:0.5rem;
+    margin:1rem;
+    }
+    button{
+    width:10rem;
+    padding:1rem;
+    font-weight:700;
+    border-radius:1rem;
+    margin: 1rem;
+    color:red;
+    font-size:1rem;
+}
+</style>
+<script src="/js/register.js" defer></script>
 </head>
 <body>
 <header class="header-area">
@@ -23,18 +62,14 @@
         <a class="header-items"href="/html/login.html">Login</a>
 </nav>
 </header>
-    <section class="contact-form">
-        <h2 class="contact-us-title">Contact Us</h2>
-        <form class="contact-us-inputs" action="/api/v1/contact-messages" method="POST">
-            <label for="name">Name</label>
-            <input class="contact-form-inputs" id="name"name="Name" type="text" placeholder="Enter your full name"required autofocus maxlength="40">
-            <label for="email">E-Mail Address</label>
-            <input class="contact-form-inputs"id="email" name="Email_Address" type="email" placeholder="Enter your email address"required maxlength="40">
-            <label for="subject">Subject</label>
-            <input class="contact-form-inputs" id="subject"name="Subject" type="text"placeholder="Enter proper subject of message"required maxlength="50">
-            <label for="message">Message</label>
-            <textarea class="contact-form-inputs" id="message" name="Message"placeholder="Enter your Message here.."required maxlength="200"></textarea>
-            <button class="contact-us-button">Submit</button>
+    <section class="register">
+        <h2>Register</h2>
+        <form class="register-form">
+            <label for="email">Email Address</label>
+            <input id="email" name="email" type="email" placeholder="Enter your email address"required maxlength="40">
+            <label for="password">Password</label>
+            <input id="password"name="password" type="text"placeholder="Enter password"required maxlength="50">
+            <button>Register</button>
         </form>
           <br>
           <br>
