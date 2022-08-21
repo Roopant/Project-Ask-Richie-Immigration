@@ -1,13 +1,14 @@
+
 const questionInput =document.querySelector('.question-input')
 const postSubmitButton=document.querySelector('.post-submit-button')
 const questions=document.querySelector('.posted-questions-title')
+const loginButton=document.querySelector('#login-btn')
+const logoutButton=document.querySelector('#logout-btn')
 
 
 let  Questions=[]
 
 const uri= 'http://localhost:3000/api/v1/forum-questions'
-
-//let counter = 0
 
 /*Show & hide error message*/
 const errorMsg= document.querySelector('.error-msg-container')
@@ -22,11 +23,16 @@ const showErrorMsg = (msg) => {
 
 /*Show & hide error message*/
 
+const getJWT = () => localStorage.getItem('jwt')
+
+
+
 window.addEventListener('load', async () => {
     const options = {
         method : 'GET',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+             Authorization : getJWT()
           }
     }
     try{
@@ -38,7 +44,16 @@ window.addEventListener('load', async () => {
         data.forEach(que => {
           postedQuestionTemplate(que.question,que._id,que.reply)
         })
-        } 
+        
+        const userEmail=localStorage.getItem('userEmail')
+        loginButton.textContent= userEmail.split('@')[0]
+        loginButton.style.cssText=
+        `display:inline;
+        text-decoration:none ;
+        color:blue;
+        pointer-events:none`
+        logoutButton.style.display='inline'
+      } 
     }catch(err) 
         {console.error(err.message)} 
     })
@@ -49,7 +64,8 @@ const SaveQuestions= async (question)=>{
     const options = {
         method : 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            Authorization : getJWT()
           },
         body: JSON.stringify(question),
     }
@@ -71,7 +87,8 @@ const EditQuestion= async (question)=>{
      const options = {
         method : 'PATCH',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            Authorization : getJWT()
           },
         body: JSON.stringify(question),
     }
@@ -95,7 +112,8 @@ const DeleteQuestion=async (id)=>{
         {const options = {
                 method : 'DELETE',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    Authorization : getJWT()
                   },
             }
             try{
@@ -361,4 +379,18 @@ postSubmitButton.addEventListener('click',()=>{
 
 questionInput.addEventListener('focus',()=>{
     hideErrorMsg()
+})
+
+logoutButton.addEventListener('click', e => {
+    e.preventDefault()
+    localStorage.clear()
+    window.location.href='/html/login.html'
+
+    /* loginButton.textContent= 'Login'      //This piece of code for safe side 
+   loginButton.style.cssText=
+   `color:red;
+   text-decoration-line:underline;`
+    logoutButton.style.display='none'*/
+
+        
 })
