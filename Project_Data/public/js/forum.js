@@ -384,7 +384,7 @@ questionInput.addEventListener('focus',()=>{
 logoutButton.addEventListener('click', e => {
     e.preventDefault()
     localStorage.clear()
-    window.location.href='/html/login.html'
+    window.location.href='/html/forum.html'
 
     /* loginButton.textContent= 'Login'      //This piece of code for safe side 
    loginButton.style.cssText=
