@@ -42,7 +42,7 @@ window.addEventListener('load', async () => {
         if (Array.isArray(data))  {
             Questions = data
         data.forEach(que => {
-          postedQuestionTemplate(que.question,que._id,que.reply)
+          postedQuestionTemplate(que.question,que._id,que.reply,que.createdBy)
         })
         
         const userEmail=localStorage.getItem('userEmail')
@@ -163,8 +163,15 @@ const EditReplyInQuestions=(id,editedReply) =>{
 
 
 /*Function-postedQuestionTemplate*/
-const postedQuestionTemplate=(questionInputValue,id,reply)=>{
+const postedQuestionTemplate=(questionInputValue,id,reply,createdbyUserEmail)=>{
           if(!questionInputValue){return}
+
+    const questionPostedBy=document.createElement('div')
+    questionPostedBy.innerHTML=(createdbyUserEmail)
+    questionPostedBy.style.cssText=
+    `color:blue;
+    font-style:italic`
+
 
        const postedQuestionText =document.createElement('p')
     postedQuestionText.innerHTML=`${questionInputValue}`
@@ -289,6 +296,7 @@ const replyToQuestion=()=>{
         hideErrorMsg()
         })
 
+   // postedQuestions.appendChild(questionPostedBy)    
     postedQuestions.appendChild(postedQuestionText)
     postedQuestions.appendChild(postedQuestionsButtons)    
 
@@ -351,6 +359,7 @@ const replyToQuestion=()=>{
 
 
 const questionList=document.createElement('section')
+questionList.appendChild(questionPostedBy) 
 questionList.appendChild(postedQuestions)
 if(!reply) {questionList.appendChild(replybutton)}
 else{ postedReplyTemplate(id,reply,questionList)}
@@ -370,7 +379,7 @@ questions.appendChild(questionList)
 postSubmitButton.addEventListener('click',()=>{
     SaveQuestions({question:questionInput.value}).then(que=>{
         console.log(que)
-        postedQuestionTemplate(que.question,que._id,que.reply)
+        postedQuestionTemplate(que.question,que._id,que.reply,que.createdBy)
         Questions.push(que)
         questionInput.value=''
     }).catch(err => console.error(err.message))

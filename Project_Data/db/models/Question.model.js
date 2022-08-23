@@ -13,8 +13,8 @@ const questionSchema = new mongoose.Schema({
         default: '',
         
       },
-      userId : {
-        type :mongoose.Schema.Types.ObjectId
+      createdBy : {
+        type :mongoose.Schema.Types.String
       }
 
 })

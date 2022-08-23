@@ -15,8 +15,8 @@ const getQuestions= async (req,res)=>{
 const postQuestion= async (req,res)=>{
     try{ 
         const {question ,reply} = req.body 
-        const userId =req.loggedInUser._id
-        const NewQuestion = await QuestionModel.create({question,reply,userId})
+        const createdBy =req.loggedInUser.email
+        const NewQuestion = await QuestionModel.create({question,reply,createdBy})
         res.send(NewQuestion) 
        return
     }
@@ -32,7 +32,7 @@ const editQuestion= async (req,res)=>{
 
       const questionInfo = await QuestionModel.findById(_id).exec()
 
-      if(req.loggedInUser._id.toString() !==questionInfo.userId.toString()) {
+      if(req.loggedInUser.email!==questionInfo.createdBy) {
         res.status(401).send('you do not have access to edit this question')
          return
     }
@@ -54,7 +54,7 @@ const deleteQuestion =async (req,res)=>{
 
     const questionInfo = await QuestionModel.findById(_id).exec()
 
-    if(req.loggedInUser._id.toString() !==questionInfo.userId.toString()) {
+    if(req.loggedInUser.email!==questionInfo.createdBy) {
       res.status(401).send('you do not have access to delete this question')
        return  
     }
