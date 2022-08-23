@@ -125,7 +125,7 @@ const DeleteQuestion=async (id)=>{
                 } catch(err) 
                 {console.error(err.message)
                 showErrorMsg(err.message)
-                 reject(error)} 
+                 reject(err)} 
             }
         })
     }

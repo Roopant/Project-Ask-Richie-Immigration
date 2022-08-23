@@ -5,8 +5,9 @@ const loginUser = async (uri, fields) => {
       const options = {
         method: 'POST',
         headers: {
-          'Content-type': 'application/json; charset=UTF-8'
-        },
+          'Content-type': 'application/json; charset=UTF-8',
+         //Authorization :localStorage.getItem('jwt')
+          },
         body: JSON.stringify(fields)
       }
       const response = await fetch(uri, options)

@@ -13,7 +13,9 @@ const questionSchema = new mongoose.Schema({
         default: '',
         
       },
-
+      userId : {
+        type :mongoose.Schema.Types.ObjectId
+      }
 
 })
 //Schema

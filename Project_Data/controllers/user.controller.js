@@ -26,10 +26,10 @@ const login=async(req,res)=>{
         res.status(401).send({message:'Incorrect email or password'})
         return
     }
-     const token = jwt.sign({email},process.env.JWT_secret,{expiresIn:'1h'})
+     const token = jwt.sign({email},process.env.JWT_secret,{expiresIn: process.env.JWT_EXPIRY})
      res.send({token})
    } catch(e)
-     {res.status(500).send(e.message)}
+     {res.status(500).send({message :'Something went wrong.Please try again shortly!'})}
 }
 
 module.exports={register,login}

@@ -13,7 +13,7 @@ const port =process.env.PORT || 3000
 const {getContactMessages,createNewContactMessage,updateContactMessage,deleteContactMessage,getContactMessage}=require('./controllers').contactusmessage
 const{getQuestions,editQuestion,deleteQuestion,postQuestion}=require('./controllers').question
 const {register,login}=require('./controllers').user
-const auth=require('./auth')
+const {auth}=require('./auth')
 app.set('viewengine','pug') // no need to require pug separately, this would automatically do that
 app.set('views','./views')
 
@@ -51,7 +51,7 @@ app.route('/api/v1/forum-questions')
 .get(getQuestions) 
 
 
-//app.use(auth)
+app.use(auth)
 app.route('/api/v1/forum-questions/:_id')
 .patch(editQuestion)
 .delete(deleteQuestion)

@@ -14,8 +14,9 @@ const getQuestions= async (req,res)=>{
 
 const postQuestion= async (req,res)=>{
     try{ 
-        const Question = req.body 
-        const NewQuestion = await QuestionModel.create(Question)
+        const {question ,reply} = req.body 
+        const userId =req.loggedInUser._id
+        const NewQuestion = await QuestionModel.create({question,reply,userId})
         res.send(NewQuestion) 
        return
     }
@@ -29,6 +30,13 @@ const editQuestion= async (req,res)=>{
       const {_id} = req.params
       const {question,reply} = req.body
 
+      const questionInfo = await QuestionModel.findById(_id).exec()
+
+      if(req.loggedInUser._id.toString() !==questionInfo.userId.toString()) {
+        res.status(401).send('you do not have access to edit this question')
+         return
+    }
+
       await QuestionModel.updateOne({_id},{question,reply},{runValidators:true}).exec()
       const editedQuestion = await QuestionModel.findById(_id).exec()
       res.send(editedQuestion)
@@ -41,7 +49,17 @@ const editQuestion= async (req,res)=>{
 const deleteQuestion =async (req,res)=>{
   try {
     const {_id} = req.params
-    await QuestionModel.findByIdAndDelete(_id).exec()
+   
+    if (!_id) res.status(404).send('Not Found')
+
+    const questionInfo = await QuestionModel.findById(_id).exec()
+
+    if(req.loggedInUser._id.toString() !==questionInfo.userId.toString()) {
+      res.status(401).send('you do not have access to delete this question')
+       return  
+    }
+
+   await QuestionModel.findByIdAndDelete(_id).exec()
     res.send({message:`Question with id ${_id} has been deleted successfully`})
   } catch (e) {
     res.status(500).send(e.message)

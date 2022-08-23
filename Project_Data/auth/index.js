@@ -2,27 +2,37 @@ const UserModel = require('../db/models').User
 const jwt = require('jsonwebtoken')
 
 const auth = async (req, res, next) => {
-  const { authorization: token } = req.headers
+  try {
+    const { authorization: token } = req.headers
 
-  if (!token) {
-    res.status(401).send('unauthorized')
+  if (token === null || token === undefined) {
+    res.send('Please login')
     return
   }
 
   const payload = jwt.verify(token, process.env.JWT_SECRET)
 
   if (!payload) {
-    res.status(401).send('unauthorized')
+    res.redirect('/html/login.html')
     return
   }
 
-  const user = await userModel.findOne({ email: payload.email }).exec()
+  const user = await UserModel.findOne({ email: payload.email }).exec()
 
   if (!user) {
-    res.status(401).send('unauthorized')
+    res.redirect('/html/login.html')
   }
 
-  next()
-}
+  if (!req.loggedInUser) {
+ 
+    Object.defineProperty(req,'loggedInUser',{
+      value: user,
+       })
 
-module.exports = auth
+  }
+next()
+}catch(e){
+  res.status(500).send('Please login to continue')}
+
+} 
+module.exports = {auth}
