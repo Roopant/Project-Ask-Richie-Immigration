@@ -132,10 +132,19 @@ const DeleteQuestion=async (id)=>{
 
 
 const EditQueInQuestions=(id,editedQue) =>{
-    const index =Questions.findIndex(que=>que._id===id)
-    if (index!==-1) Questions[index].question=editedQue
-    EditQuestion(Questions[index])
-}
+    return new Promise(async(resolve,reject)=>
+    {const index =Questions.findIndex(que=>que._id===id)
+    if (index!==-1)
+    try{ Questions[index].question=editedQue
+   const data = EditQuestion(Questions[index])
+   resolve(data)
+}catch (err){
+    showErrorMsg(err.message)
+     reject(err)}
+
+})}
+
+
 
 const PostReplyInQuestions=(id, replied)=>{
     const index =Questions.findIndex(que=>que._id===id)
@@ -145,15 +154,32 @@ const PostReplyInQuestions=(id, replied)=>{
 }
 
 const DeleteReplyInQuestions=(id, replied)=>{
-    const index =Questions.findIndex(que=>que._id===id)
-    if (index!==-1) Questions[index].reply=replied
-    EditQuestion(Questions[index])
+    return new Promise(async(resolve,reject)=>
+   {const index =Questions.findIndex(que=>que._id===id)
+    if (index!==-1) 
+    try {
+        Questions[index].reply=replied
+        const data= EditQuestion(Questions[index])
+          resolve(data)}
+    catch (err){
+        showErrorMsg(err.message)
+         reject(err)}
+   })
 }
 
+
 const EditReplyInQuestions=(id,editedReply) =>{
-    const index =Questions.findIndex(que=>que._id===id)
-    if (index!==-1) Questions[index].reply=editedReply
-    EditQuestion(Questions[index])
+    return new Promise(async(resolve,reject)=>
+   { const index =Questions.findIndex(que=>que._id===id)
+    if (index!==-1)
+    try {
+     Questions[index].reply=editedReply
+    const data=EditQuestion(Questions[index])
+     resolve(data)}
+     catch (err){
+        showErrorMsg(err.message)
+         reject(err)}
+   })
 }
 
 /*const getID = (isNew)=>{
@@ -193,15 +219,25 @@ font-family: 'Roboto',system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', 
 cursor:pointer;`
 
 editBtn.addEventListener('click',()=>{
-    postedQuestionText.setAttribute('contenteditable',true);
-    postedQuestionText.focus();
-    hideErrorMsg();
+   /* if (!getJWT()) {
+        alert('You have to login to continue')
+        return}*/
+        EditQueInQuestions(replybuttonid,postedQuestionText.innerHTML).then(
+            ()=>
+           { 
+            postedQuestionText.setAttribute('contenteditable',true),
+            postedQuestionText.focus(),
+            hideErrorMsg()}
+).catch(err => console.error(err.message),
+postedQuestionText.setAttribute('contenteditable',false))
 })
 
 postedQuestionText.addEventListener('blur',()=>{
-    
+    EditQueInQuestions(replybuttonid,postedQuestionText.innerHTML).then(()=>
     postedQuestionText.setAttribute('contenteditable',false) 
-    EditQueInQuestions(replybuttonid,postedQuestionText.innerHTML)
+    ).catch(err => console.error(err.message),
+    postedQuestionText.focus(),
+postedQuestionText.setAttribute('contenteditable',true))
 })
 
 
@@ -217,6 +253,9 @@ font-family: 'Roboto',system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', 
 cursor:pointer;`
 
 deleteBtn.addEventListener('click',()=>{
+    /*if (!getJWT()) {
+        alert('You have to login to continue')
+        return}*/
     DeleteQuestion(replybuttonid).then(()=> questionList.remove()).catch(err => console.error(err.message))
    })
 
@@ -292,6 +331,9 @@ const replyToQuestion=()=>{
     
 }
     replybutton.addEventListener('click',()=>{
+        if (!getJWT()) {
+            alert('You have to login to continue')
+            return}
         replyToQuestion()
         hideErrorMsg()
         })
@@ -331,18 +373,34 @@ const replyToQuestion=()=>{
     questionList.appendChild(DeleteReply)
 
     DeleteReply.addEventListener('click',()=>{
+        /*if (!getJWT()) {
+            alert('You have to login to continue')
+            return}*/
+
         DeleteReplyInQuestions(replybuttonid,'')
-        PostedReply.remove();
-        //postReplybutton.remove();
-        DeleteReply.remove();replybutton.remove();EditReply.remove();
-        questionList.appendChild(replybutton);
-        hideErrorMsg()})
+        .then( ()=>{
+            PostedReply.remove()
+            //postReplybutton.remove();
+            DeleteReply.remove()
+            replybutton.remove()
+            EditReply.remove()
+            questionList.appendChild(replybutton)
+            hideErrorMsg()}
+          ).catch(err => console.error(err.message))
+        })
     
     EditReply.addEventListener('click',()=>{
-        PostedReply.setAttribute('contenteditable',true)
-        PostedReply.focus();
-        hideErrorMsg()})
 
+      EditReplyInQuestions(replybuttonid,postedQuestionText.innerHTML).then(
+            ()=>
+           {  PostedReply.setAttribute('contenteditable',true)
+           PostedReply.focus();
+           hideErrorMsg()
+            }
+           ).catch(err => console.error(err.message),
+        PostedReply.setAttribute('contenteditable',false))
+    }
+    )
 
       PostedReply.addEventListener('blur',()=>{
         PostedReply.setAttribute('contenteditable',false)
@@ -377,6 +435,9 @@ questions.appendChild(questionList)
 
 
 postSubmitButton.addEventListener('click',()=>{
+    if (!getJWT()) {
+        alert('You have to login to continue')
+        return}
     SaveQuestions({question:questionInput.value}).then(que=>{
         console.log(que)
         postedQuestionTemplate(que.question,que._id,que.reply,que.createdBy)
