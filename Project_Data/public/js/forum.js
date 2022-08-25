@@ -14,9 +14,11 @@ const uri= 'http://localhost:3000/api/v1/forum-questions'
 const errorMsg= document.querySelector('.error-msg-container')
 const errorMsgText=document.querySelector('.error-text')
 
-const showErrorMsg = (msg) => {
-    errorMsgText.innerText = msg || 'Error while doing any operations!'
+const showErrorMsg = (err) => {
+    
+   errorMsgText.innerText = err.message || 'Error while doing any operations!'
     errorMsg.style.display = 'block'
+    console.error(err.message)
   }
 
   const hideErrorMsg = () => (errorMsg.style.display = 'none')
@@ -46,6 +48,7 @@ window.addEventListener('load', async () => {
         })
         
         const userEmail=localStorage.getItem('userEmail')
+        if (userEmail){
         loginButton.textContent= userEmail.split('@')[0]
         loginButton.style.cssText=
         `display:inline;
@@ -54,8 +57,10 @@ window.addEventListener('load', async () => {
         pointer-events:none`
         logoutButton.style.display='inline'
       } 
+    }
     }catch(err) 
-        {console.error(err.message)} 
+        {//console.error(err.message)
+        showErrorMsg(err)} 
     })
 
  
@@ -72,12 +77,18 @@ const SaveQuestions= async (question)=>{
     try{
         const response = await fetch(uri,options)
         const data = await response.json()
-        console.log('data',data)
+        //console.log('data',data)
+        if (data.message==='Please login')
+        { throw new Error(data.message)}
+        if (data.message==='Validation failed-Please enter minimum 5 characters')
+        { throw new Error(data.message)}
+
+
         resolve(data)
         hideErrorMsg()
         } catch(err) 
-        {console.error(err.message)
-        showErrorMsg(err.message)
+        {//console.error(err.message)
+        showErrorMsg(err)
          reject(err)} 
     })
 }
@@ -96,11 +107,22 @@ const EditQuestion= async (question)=>{
         const response = await fetch(`${uri}/${question._id}`,options)
         const data = await response.json()
         console.log('data',data)
+       if (data.message==='Please login')
+          { throw new Error(data.message)}
+
+          if (data.message=== 'you are not authorised to edit or delete Questions and Replies ,posted by other Users') {
+            throw new Error(data.message);
+        }
+
+          if (data.message==='Validation failed-Please enter minimum 5 characters')
+          { throw new Error(data.message)}
+
+
         hideErrorMsg()
         resolve(data)
         } catch(err) 
-        {console.error(err.message)
-        showErrorMsg(err.message)
+        {//console.error(err.message)
+        showErrorMsg(err)
          reject(err)} 
     })}
     
@@ -120,11 +142,18 @@ const DeleteQuestion=async (id)=>{
                 const response = await fetch(`${uri}/${id}`,options)
                 const data = await response.json()
                 console.log('data',data)
+                
+                if (data.message==='Please login')
+                { throw new Error(data.message)}
+                
+                if (data.message=== 'you are not authorised to edit or delete Questions and Replies ,posted by other Users') {
+                    throw new Error(data.message)}
+            
                 hideErrorMsg()
                 resolve()
                 } catch(err) 
-                {console.error(err.message)
-                showErrorMsg(err.message)
+                {//console.error(err.message)
+                showErrorMsg(err)
                  reject(err)} 
             }
         })
@@ -139,7 +168,7 @@ const EditQueInQuestions=(id,editedQue) =>{
    const data = EditQuestion(Questions[index])
    resolve(data)
 }catch (err){
-    showErrorMsg(err.message)
+    showErrorMsg(err)
      reject(err)}
 
 })}
@@ -162,7 +191,7 @@ const DeleteReplyInQuestions=(id, replied)=>{
         const data= EditQuestion(Questions[index])
           resolve(data)}
     catch (err){
-        showErrorMsg(err.message)
+        showErrorMsg(err)
          reject(err)}
    })
 }
@@ -177,7 +206,7 @@ const EditReplyInQuestions=(id,editedReply) =>{
     const data=EditQuestion(Questions[index])
      resolve(data)}
      catch (err){
-        showErrorMsg(err.message)
+        showErrorMsg(err)
          reject(err)}
    })
 }
@@ -228,14 +257,14 @@ editBtn.addEventListener('click',()=>{
             postedQuestionText.setAttribute('contenteditable',true),
             postedQuestionText.focus(),
             hideErrorMsg()}
-).catch(err => console.error(err.message),
+).catch(err => showErrorMsg(err),
 postedQuestionText.setAttribute('contenteditable',false))
 })
 
 postedQuestionText.addEventListener('blur',()=>{
     EditQueInQuestions(replybuttonid,postedQuestionText.innerHTML).then(()=>
     postedQuestionText.setAttribute('contenteditable',false) 
-    ).catch(err => console.error(err.message),
+    ).catch(err => showErrorMsg(err),
     postedQuestionText.focus(),
 postedQuestionText.setAttribute('contenteditable',true))
 })
@@ -386,18 +415,18 @@ const replyToQuestion=()=>{
             EditReply.remove()
             questionList.appendChild(replybutton)
             hideErrorMsg()}
-          ).catch(err => console.error(err.message))
+          ).catch(err => showErrorMsg(err))
         })
     
     EditReply.addEventListener('click',()=>{
 
-      EditReplyInQuestions(replybuttonid,postedQuestionText.innerHTML).then(
+      EditReplyInQuestions(replybuttonid,PostedReply.innerHTML).then(
             ()=>
            {  PostedReply.setAttribute('contenteditable',true)
            PostedReply.focus();
            hideErrorMsg()
             }
-           ).catch(err => console.error(err.message),
+           ).catch(err => showErrorMsg(err),
         PostedReply.setAttribute('contenteditable',false))
     }
     )
@@ -435,15 +464,15 @@ questions.appendChild(questionList)
 
 
 postSubmitButton.addEventListener('click',()=>{
-    if (!getJWT()) {
+    /*if (!getJWT()) {
         alert('You have to login to continue')
-        return}
+        return}*/
     SaveQuestions({question:questionInput.value}).then(que=>{
-        console.log(que)
+        //console.log(que)
         postedQuestionTemplate(que.question,que._id,que.reply,que.createdBy)
         Questions.push(que)
         questionInput.value=''
-    }).catch(err => console.error(err.message))
+    }).catch(err => showErrorMsg(err))
     
 })
 
