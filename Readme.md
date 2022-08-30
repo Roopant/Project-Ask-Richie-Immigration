@@ -19,9 +19,7 @@ Back-End Implemetation:-
 
 4) Integrated "Forum" page frontend with backend and Mongo Cloud DB 
 
-Features to implement yet -
-
-1) User Registeration , Login after Authentication and Authorization access to resources.
+5) User Registeration , Login after Authentication and Authorization access to do CRUD on Forum Page.
 
 
 
